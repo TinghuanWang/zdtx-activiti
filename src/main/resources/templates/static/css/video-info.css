@@ -1,0 +1,133 @@
+* {
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+}
+
+body {
+	background: #f6f7f9;
+}
+
+ul {
+	list-style: none;
+}
+
+.pd-lr-10 {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.video-bg {
+	background: #fff;
+	padding: 15px;
+	margin: 10px 0;
+}
+
+.video-bg p {
+	color: #0799ED;
+}
+
+.video-bg p img {
+	vertical-align: top;
+	margin-right: 6px;
+}
+
+
+/*--------左侧--------*/
+
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url('../css/bootstrap/fonts/glyphicons-halflings-regular.eot');
+  src: url('../css/bootstrap/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../css/bootstrap/fonts/glyphicons-halflings-regular.woff') format('woff'), url('../css/bootstrap/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../css/bootstrap/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+
+
+.glyphicon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  -webkit-font-smoothing: antialiased;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.my-cont {
+	padding: 0;
+}
+.panel-group {
+	max-height: 770px;
+	overflow: auto;
+	margin: 5px 0;
+}
+
+.leftMenu {
+	margin: 10px;
+	margin-top: 5px;
+	border-radius: 0 !important;
+}
+
+.leftMenu .panel-heading {
+	font-size: 14px;
+	padding: 8px 6px;
+	height: 32px;
+	line-height: 32px;
+	color: #000;
+	position: relative;
+	background-color: #fff;
+	border-color: #fff;
+}
+
+.leftMenu .panel-title {
+	font-size: 14px;
+}
+
+.leftMenu .panel-title > i {
+	margin-right: 6px;
+	vertical-align: top;
+} 
+
+.leftMenu .panel-heading span {
+	position: absolute;
+	right: 10px;
+	top: 12px;
+}
+
+.leftMenu .list-group-item {
+	padding: 8px 15px;
+}
+
+.panel>.list-group:last-child .list-group-item:last-child, .panel>.panel-collapse>.list-group:last-child .list-group-item:last-child {
+	border-bottom: 1px solid #ddd;;
+}
+
+.panel>.panel-collapse>.list-group>.my-list {
+	border-bottom: 0 !important;
+}
+
+.leftMenu .menu-item-left {
+	display: block;
+	color: #000;
+}
+
+.leftMenu .menu-item-left > span {
+	margin-right: 6px;
+}
+
+.leftMenu .menu-item-left:hover,.leftMenu .menu-item-left:visited,
+.leftMenu .menu-item-left:link,.leftMenu .menu-item-left:active  {
+	text-decoration:none;
+}
+
+/*分页*/
+.data-container {
+	overflow: hidden;
+}
+.paginationjs .paginationjs-pages {
+	float: none !important;
+}
+.paginationjs .paginationjs-pages ul {
+	margin-left: calc(50% - 105px) !important;
+}

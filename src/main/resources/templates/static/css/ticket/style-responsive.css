@@ -1,0 +1,375 @@
+/*响应式 css*/
+
+@media (min-width:320px) {
+	/*首页样式*/
+	.box-tl {
+		left: 0;
+	}
+	.box-br {
+		right: 0;
+	}
+	/*首页样式 end*/
+	/*停车管理样式*/
+	.out img {
+		width: 100%;
+	}
+	.import img {
+		width: 100%;
+	}
+	/*停车管理样式  end*/
+}
+
+@media (min-width:768px) {
+	.col-md-sm-4 {
+		width: 40%;
+	}
+	.col-md-sm-8 {
+		width: 60%
+	}
+	.col-md-sm-12 {
+		width: 100%
+	}
+	/*导航样式*/
+	.nav-border li {
+		padding: 6px 6px;
+	}
+	.navbar-collapse .nav-border>li>a {
+		padding: 5px 18px;
+	}
+	/*导航样式  end*/
+	/*首页样式*/
+	.box-tl {
+		left: 0;
+	}
+	.box-br {
+		right: 15px;
+	}
+	/*首页样式 end*/
+	/*停车管理样式*/
+	.import img {
+		width: 100%;
+	}
+	.out img {
+		width: 100%;
+	}
+	/*停车管理样式  end*/
+}
+
+@media (min-width:992px) {
+	.col-md-sm-4 {
+		width: 40%;
+	}
+	.col-md-sm-8 {
+		width: 60%
+	}
+	.col-md-sm-12 {
+		width: 100%
+	}
+	/*导航样式*/
+	.nav-border li {
+		padding: 6px 6px;
+	}
+	.navbar-collapse .nav-border>li>a {
+		padding: 5px 14px;
+	}
+	/*导航样式  end*/
+	/*首页样式*/
+	.box-tl {
+		left: 15px;
+	}
+	.box-br {
+		right: 15px;
+	}
+	/*首页样式 end*/
+}
+
+@media (min-width:1100px) {
+	.col-md-4 {
+		width: 33.33333333%;
+	}
+	.col-md-8 {
+		width: 66.66666667%
+	}
+	.col-md-9 {
+		width: 75%
+	}
+	.col-md-3 {
+		width: 25%
+	}
+	.col-md-6 {
+		width: 50%
+	}
+	/*导航样式*/
+	.nav-border li {
+		padding: 6px 20px;
+	}
+	.navbar-collapse .nav-border>li>a {
+		padding: 5px 20px;
+	}
+	/*导航样式  end*/
+}
+
+@media (min-width:1400px) {
+	.col-md-4 {
+		width: 33.33333333%;
+	}
+	.col-md-8 {
+		width: 66.66666667%
+	}
+	.col-md-9 {
+		width: 75%
+	}
+	.col-md-3 {
+		width: 25%
+	}
+	/*导航样式*/
+	.nav-border li {
+		padding: 6px 20px;
+	}
+	.navbar-collapse .nav-border>li>a {
+		padding: 5px 20px;
+	}
+	/*导航样式  end*/
+}
+
+.add_panel-body {
+	color: #FFF;
+}
+
+#touristAge,
+#touristSource {
+	height: 250px;
+	width: 100%;
+	-webkit-tap-highlight-color: transparent;
+	user-select: none;
+	position: relative;
+}
+
+.add_touristAge {
+	position: relative;
+	overflow: hidden;
+	width: 305px;
+	height: 250px;
+	padding: 0px;
+	margin: 0px;
+	border-width: 0px;
+	cursor: default;
+}
+
+.add_touristAge canvas {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 305px;
+	height: 250px;
+	user-select: none;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	padding: 0px;
+	margin: 0px;
+	border-width: 0px;
+}
+
+.add_touristAge_list {
+	position: absolute;
+	display: none;
+	border-style: solid;
+	white-space: nowrap;
+	z-index: 9999999;
+	transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s, top 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s;
+	background-color: rgba(50, 50, 50, 0.7);
+	border-width: 0px;
+	border-color: rgb(51, 51, 51);
+	border-radius: 4px;
+	color: rgb(255, 255, 255);
+	font: 14px/21px &quot;
+	font-family: "Microsoft YaHei&quot";
+	padding: 5px;
+	left: 138px;
+	top: 119px;
+}
+
+.add_touristSource {
+	position: relative;
+	overflow: hidden;
+	width: 642px;
+	height: 250px;
+	padding: 0px;
+	margin: 0px;
+	border-width: 0px;
+	cursor: default;
+}
+
+.add_touristSource canvas {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 642px;
+	height: 250px;
+	user-select: none;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	padding: 0px;
+	margin: 0px;
+	border-width: 0px;
+}
+
+.add_touristSource_list {
+	position: absolute;
+	display: none;
+	border-style: solid;
+	white-space: nowrap;
+	z-index: 9999999;
+	transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s, top 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s;
+	background-color: rgba(50, 50, 50, 0.7);
+	border-width: 0px;
+	border-color: rgb(51, 51, 51);
+	border-radius: 4px;
+	color: rgb(255, 255, 255);
+	font: 14px/21px &quot;
+	font-family: "Microsoft YaHei&quot";
+	padding: 5px;
+	left: 215px;
+	top: 138px;
+}
+
+#touristType,
+#touristAnalysis {
+	height: 220px;
+	width: 100%;
+	-webkit-tap-highlight-color: transparent;
+	user-select: none;
+	position: relative;
+}
+
+.add_touristType {
+	position: relative;
+	overflow: hidden;
+	width: 305px;
+	height: 220px;
+	padding: 0px;
+	margin: 0px;
+	border-width: 0px;
+	cursor: default;
+}
+
+.add_touristType canvas {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 305px;
+	height: 220px;
+	user-select: none;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	padding: 0px;
+	margin: 0px;
+	border-width: 0px;
+}
+
+.add_touristType_list {
+	position: absolute;
+	display: none;
+	border-style: solid;
+	white-space: nowrap;
+	z-index: 9999999;
+	transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s, top 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s;
+	background-color: rgba(50, 50, 50, 0.7);
+	border-width: 0px;
+	border-color: rgb(51, 51, 51);
+	border-radius: 4px;
+	color: rgb(255, 255, 255);
+	font: 14px/21px &quot;
+	font-family: "Microsoft YaHei&quot";
+	padding: 5px;
+	left: 12px;
+	top: 118px;
+}
+
+.add_touristType_list2 {
+	position: absolute;
+	display: none;
+	border-style: solid;
+	white-space: nowrap;
+	z-index: 9999999;
+	transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s, top 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s;
+	background-color: rgba(50, 50, 50, 0.7);
+	border-width: 0px;
+	border-color: rgb(51, 51, 51);
+	border-radius: 4px;
+	color: rgb(255, 255, 255);
+	font: 14px/21px &quot;
+	font-family: "Microsoft YaHei&quot";
+	padding: 5px;
+	left: 141px;
+	top: 116px;
+}
+
+#touristMouth {
+	height: 220px;
+	width: 100%;
+	-webkit-tap-highlight-color: transparent;
+	user-select: none;
+	position: relative;
+}
+
+.add_touristMouth {
+	position: relative;
+	overflow: hidden;
+	width: 305px;
+	height: 220px;
+	padding: 0px;
+	margin: 0px;
+	border-width: 0px;
+	cursor: default;
+}
+
+.add_touristMouth canvas {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 305px;
+	height: 220px;
+	user-select: none;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	padding: 0px;
+	margin: 0px;
+	border-width: 0px;
+}
+
+.add_touristMouth_list {
+	position: absolute;
+	display: none;
+	border-style: solid;
+	white-space: nowrap;
+	z-index: 9999999;
+	transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s, top 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s;
+	background-color: rgba(50, 50, 50, 0.7);
+	border-width: 0px;
+	border-color: rgb(51, 51, 51);
+	border-radius: 4px;
+	color: rgb(255, 255, 255);
+	font: 14px/21px &quot;
+	font-family: "Microsoft YaHei&quot";
+	padding: 5px;
+	left: 108px;
+	top: 80px;
+}
+
+.add_touristMouth_span {
+	display: inline-block;
+	margin-right: 5px;
+	border-radius: 10px;
+	width: 10px;
+	height: 10px;
+	background-color: #248ff7;
+}
+.panel_list {
+	font-family: "微软雅黑";
+	line-height: 80px;
+	text-align: center;
+	font-size: 16px;
+	font-weight: bold;
+}
+.panel_list span {
+	font-size: 30px;
+	margin-left: 10px;
+	vertical-align: top;
+}

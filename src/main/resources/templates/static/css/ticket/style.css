@@ -1,0 +1,45 @@
+@charset "utf-8";
+
+/* 你自己的样式 */
+
+.total-p {
+	font-size: 35px;
+}
+
+.ic {
+	color: red;
+}
+
+.total-d {
+	float: left;
+	width: 30%;
+	height: 150px;
+	padding: 10px;
+}
+
+.total {
+	width: 98%;
+	border-bottom: 2px solid gray;
+	height: 150px;
+	padding: 10px;
+	margin-bottom: 20px;
+	border-right: 0px solid gray;
+}
+
+.total p {
+	font-size: 24px;
+}
+
+.total2 {
+	border-left: 0px solid gray;
+	border-right: 2px solid gray;
+}
+
+.total3 {
+	border-left: 2px solid gray;
+	border-right: 2px solid gray;
+}
+
+.total4 {
+	border-left: 2px solid gray;
+}

@@ -1,0 +1,257 @@
+html {
+	height: 100%;
+}
+
+
+/*body.signin {
+	height: auto;
+	background: url(../img/login-background.jpg) no-repeat center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	color: rgba(255, 255, 255, .95)
+}*/
+
+body {
+	width: 100vw;
+	height: 100vh;
+	color: #fff;
+	background-image: url(../../img/bglogin.jpg);
+	background-repeat: no-repeat;
+	/*background: linear-gradient(-45deg, rgba(9, 69, 138, 0.2), rgba(68, 155, 255, 0.7), rgba(117, 113, 251, 0.7), rgba(68, 155, 255, 0.7), rgba(9, 69, 138, 0.2));*/
+	background-size: cover;
+	/*-webkit-animation: Gradient 15s ease infinite;*/
+	/*-moz-animation: Gradient 15s ease infinite;*/
+	/*animation: Gradient 15s ease infinite;*/
+}
+
+/*@-webkit-keyframes Gradient {*/
+	/*0% {*/
+		/*background-position: 0% 50%;*/
+	/*}*/
+	/*50% {*/
+		/*background-position: 100% 50%;*/
+	/*}*/
+	/*100% {*/
+		/*background-position: 0% 50%;*/
+	/*}*/
+/*}*/
+
+/*@-moz-keyframes Gradient {*/
+	/*0% {*/
+		/*background-position: 0% 50%;*/
+	/*}*/
+	/*50% {*/
+		/*background-position: 100% 50%;*/
+	/*}*/
+	/*100% {*/
+		/*background-position: 0% 50%;*/
+	/*}*/
+/*}*/
+
+/*@keyframes Gradient {*/
+	/*0% {*/
+		/*background-position: 0% 50%;*/
+	/*}*/
+	/*50% {*/
+		/*background-position: 100% 50%;*/
+	/*}*/
+	/*100% {*/
+		/*background-position: 0% 50%;*/
+	/*}*/
+/*}*/
+
+.container {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	padding: 0;
+	margin: 0;
+}
+
+.signinpanel {
+	position: absolute;
+	top: calc(50% - 330px);
+	left: calc(50% - 425px);
+	width: 850px;
+	margin: 0 auto;
+}
+
+.signinpanel .logopanel {
+	float: none;
+	width: auto;
+	padding: 0;
+	background: 0;
+}
+
+.signinpanel .logopanel>h1 {
+	text-align: center;
+	margin-top: 10px;
+}
+
+.signinpanel .signin-info h4 {
+	text-align: center;
+	margin-top: 26px;
+}
+.ts_box {
+	margin-bottom: 10px;
+	height: 18px;
+}
+.ts_box>strong {
+	float: right;
+}
+
+.ts_box>strong>a {
+	color: #00b0ff;
+}
+
+.signinpanel .signin-info ul {
+	list-style: none;
+	padding: 0;
+	margin: 20px 0;
+}
+
+.signinpanel .form-control {
+	display: block;
+	margin-top: 26px;
+}
+
+.signinpanel .uname {
+	background: #fff url(../img/user.png) no-repeat 95% center;
+	color: #333;
+}
+
+.signinpanel .pword {
+	background: #fff url(../img/locked.png) no-repeat 95% center;
+	color: #333;
+}
+
+.signinpanel .code {
+	background: #fff no-repeat 95% center;
+	color: #333;
+	margin: 0 0 15px 0;
+}
+
+.signinpanel .btn {
+	margin-top: 19px;
+	height: 50px;
+	border-radius: 6px;
+	background-color: #00b0ff;
+	border-color: #00b0ff;
+	margin-bottom: 6px;
+}
+
+.signinpanel form {
+	background: rgba(0, 0, 0, .4);
+	border: 1px solid rgba(0, 0, 0, .2);
+	-moz-box-shadow: 0 3px 0 rgba(12, 12, 12, .03);
+	-webkit-box-shadow: 0 3px 0 rgba(12, 12, 12, .03);
+	box-shadow: 0 3px 0 rgba(12, 12, 12, .03);
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	padding: 10px 30px 30px;
+}
+
+.signup-footer {
+	border-top: solid 1px rgba(255, 255, 255, .3);
+	margin: 20px 0;
+	padding-top: 15px;
+}
+
+@media screen and (max-width:768px) {
+	.signinpanel,
+	.signuppanel {
+		margin: 0 auto;
+		width: 420px!important;
+		padding: 20px;
+	}
+	.signinpanel form {
+		margin-top: 20px;
+	}
+	.signup-footer,
+	.signuppanel .form-control {
+		margin-bottom: 10px;
+	}
+	.signup-footer .pull-left,
+	.signup-footer .pull-right {
+		float: none!important;
+		text-align: center;
+	}
+	.signinpanel .signin-info ul {
+		display: none;
+	}
+}
+
+@media screen and (max-width:320px) {
+	.signinpanel,
+	.signuppanel {
+		margin: 0 20px;
+		width: auto;
+	}
+}
+
+.checkbox-custom {
+	position: relative;
+	padding: 0 15px 0 25px;
+	margin-bottom: 7px;
+	display: inline-block;
+}
+
+.checkbox-custom input[type="checkbox"] {
+	opacity: 0;
+	position: absolute;
+	cursor: pointer;
+	z-index: 2;
+	margin: -6px 0 0 0;
+	top: 50%;
+	left: 3px;
+}
+
+.checkbox-custom label:before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 0;
+	margin-top: -9px;
+	width: 18px;
+	height: 17px;
+	display: inline-block;
+	border-radius: 2px;
+	border: 1px solid #bbb;
+	background: #fff;
+}
+
+.checkbox-custom input[type="checkbox"]:checked+label:after {
+	position: absolute;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	content: "\e013";
+	top: 42%;
+	left: 3px;
+	margin-top: -5px;
+	font-size: 11px;
+	line-height: 1;
+	width: 16px;
+	height: 16px;
+	color: #333;
+}
+
+.checkbox-custom label {
+	cursor: pointer;
+	line-height: 1.2;
+	font-weight: normal;
+	margin-bottom: 0;
+	text-align: left;
+}
+
+.form-control {
+	height: 50px;
+	line-height: 50px;
+	border-radius: 6px;
+}
+
+.login_mat {
+	margin-top: 26px;
+}

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('办公室领导审批')" />
+    <th:block th:include="include :: datetimepicker-css" />
+    <th:block th:include="include :: select2-css" />
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form th:action="@{/process/tDispatchingCars/submitTask}" method="post" class="form-horizontal m" id="form-leaveBill-edit" th:object="${tDispatchingCars}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <input name="taskId" th:value="${taskId}" type="hidden">
+            <input type="hidden" name="p_COM_comment" />
+            <div class="form-group">
+                <label class="col-sm-3 control-label">申请人：</label>
+                <div class="col-sm-8">
+                    <input name="applyUserName" th:field="*{applyUser}" class="form-control" type="text" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">申请时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="applyTime" th:value="${#dates.format(tDispatchingCars.applyTime, 'yyyy-MM-dd HH:mm')}" class="form-control" type="text" disabled>
+                    </div>
+                </div>
+            </div>
+           <!-- <div class="form-group">
+                <label class="col-sm-3 control-label">申请部门：</label>
+                <div class="col-sm-8">
+                    <input name="title" th:field="*{applicationDept}" class="form-control" type="text" readonly>
+                </div>
+            </div>-->
+           <!-- <div class="form-group">
+                <label class="col-sm-3 control-label">用车类型：</label>
+                <div class="col-sm-8">
+                    &lt;!&ndash;<input id="carType" name="carType" th:field="*{carType}" class="form-control" type="text" readonly>&ndash;&gt;
+                    <select name="carType" class="form-control m-b"  th:with="type=${@dict.getType('car_type')}">
+                        <option th:each="car : ${type}" th:text="${car.dictLabel}" th:value="${car.dictValue}" th:field="*{carType}"></option>
+                    </select>
+                </div>
+            </div>-->
+            <div class="form-group">
+                <label class="col-sm-3 control-label">乘车人数：</label>
+                <div class="col-sm-8">
+                    <input id="number" name="number" th:field="*{number}" class="form-control" type="text" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">开始时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="startTime" th:value="${#dates.format(tDispatchingCars.startTime, 'yyyy-MM-dd HH:mm')}" class="form-control calcTotalSecondInput" placeholder="yyyy-MM-dd" type="text" disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">结束时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="endTime" th:value="${#dates.format(tDispatchingCars.endTime, 'yyyy-MM-dd HH:mm')}" class="form-control calcTotalSecondInput" placeholder="yyyy-MM-dd" type="text" disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">时长：</label>
+                <div class="col-sm-8">
+                    <input name="duration" th:field="*{duration}" class="form-control" type="text" style="display: none;">
+                    <input name="totalTimeText" class="form-control" type="text" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">用车说明：</label>
+                <div class="col-sm-8">
+                    <!--<input id="carExplain" name="carExplain" th:field="*{carExplain}" class="form-control" type="text">-->
+                    <textarea id="carExplain" name="carExplain" class="form-control" readonly>[[*{carExplain}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">起止路线：</label>
+                <div class="col-sm-8">
+                    <!--<input id="routes" name="routes" th:field="*{routes}" class="form-control" type="text">-->
+                    <textarea id="routes" name="routes" class="form-control" readonly>[[*{routes}]]</textarea>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group" th:if="${not #lists.isEmpty(outcomeList)}">
+                <label class="col-sm-3 control-label" for="outcome">审批意见：</label>
+                <div class="col-sm-8">
+                    <select name="outcome" id="outcome" class="form-control m-b" >
+                        <option th:each="outcome : ${outcomeList}" th:value="${outcome}" th:text="${outcome}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">批注：</label>
+                <div class="col-sm-8">
+                    <textarea name="comment" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group" th:if="${#lists.isEmpty(outcomeList)}">
+                <label class="col-sm-3 control-label">指定审核人：</label>
+                <div class="col-sm-8">
+                    <select class="form-control" name="approvedBy" id="approvedBy">
+                        <option value="">--请选择--</option>
+                        <option th:each="user : ${userList}" th:text="${user.userName}" th:value="${user.loginName}"></option>
+                    </select>
+                </div>
+            </div>
+
+        </form>
+    </div>
+        </div>
+    </div>
+</div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <th:block th:include="include :: select2-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "process/tDispatchingCars";
+        $("#form-leaveBill-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                if ($('textarea[name="comment"]').val()) {
+                    $('input[name="p_COM_comment"]').val($('textarea[name="comment"]').val());
+                }
+                var taskId = [[${taskId}]];
+                $.operate.save(prefix + "/submitTask/" + taskId, $('#form-leaveBill-edit').serialize());
+            }
+        }
+
+        /*$("input[name='startTime']").datetimepicker({
+            autoclose: true
+        });
+
+        $("input[name='endTime']").datetimepicker({
+            autoclose: true
+        });
+
+        $(function () {
+            var leaveBill = [[${tDispatchingCars}]];
+            var dateSub = $.common.formatTotalDateSub(tDispatchingCars.duration);
+            $('input[name="totalTimeText"]').val(dateSub);
+
+            $('select[name="type"]').prop('disabled', true);
+        });*/
+
+
+    </script>
+</body>
+</html>

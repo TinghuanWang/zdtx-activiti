@@ -1,0 +1,47 @@
+server:
+  port: 8001
+
+#Durid数据库连接池配置
+spring:
+    #Activiti工作流引擎配置
+    activiti:
+      #自动检查、部署流程定义文件
+      check-process-definitions: false
+      #自动更新数据库结构
+      database-schema-update: false
+      #流程定义文件存放目录
+      process-definition-location-prefix: classpath:/processes/
+      #流程文件格式
+      #process-definition-location-suffixes:
+    datasource:
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/activiti_db?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+        username: root
+        password: 123456
+    #freemarker模板配置
+    freemarker:
+      suffix: .ftl
+      cache: false
+      charset: UTF-8
+      contentType: text/html
+      requestContextAttribute: ctx
+      templateEncoding: UTF-8
+      templateLoaderPath: classpath:/templates/
+      settings:
+        defaultEncoding: UTF-8
+        url_escaping_charset: UTF-8
+        locale: zh_CN
+    main:
+      allow-bean-definition-overriding: true #当遇到相同名字的bean时，允许覆盖注册
+
+#    mvc:
+#      view:
+#        prefix: ${server.servlet.context-path}
+#      static-path-pattern: /resources/**
+
+#日志处理
+logging:
+  level:
+    com.zzdtx.zzdtxactiviti: debug
+    org.springframework: warn
+  config: classpath:log4j2.xml
