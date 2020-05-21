@@ -11,6 +11,28 @@ import java.util.Date;
  */
 public class DateUtils {
 
+    /**
+     * 例如:2018-12-28
+     */
+    public static final String DATE = "yyyy-MM-dd";
+    /**
+     * 例如:2018-12-28 10:00:00
+     */
+    public static final String DATE_TIME = "yyyy-MM-dd HH:mm:ss";
+    /**
+     * 例如:10:00:00
+     */
+    public static final String TIME = "HHmmss";
+    /**
+     * 例如:10:00
+     */
+    public static final String TIME_WITHOUT_SECOND = "HH:mm";
+
+    /**
+     * 例如:2018-12-28 10:00
+     */
+    public static final String DATE_TIME_WITHOUT_SECONDS = "yyyy-MM-dd HH:mm";
+
     /***
      * 把日期格式转换为指定字符串格式
      * @param localDate

@@ -69,7 +69,7 @@ public class LeaveController {
     }
 
     /***
-     * 同意申请
+     * 同意、驳回申请
      * @param businessKey 业务数据ID
      * @param taskId 任务ID
      * @param userId 用户ID

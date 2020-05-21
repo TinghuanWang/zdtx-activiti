@@ -6,11 +6,13 @@ import org.springframework.core.Ordered;
 import org.springframework.http.CacheControl;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.servlet.config.annotation.*;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.concurrent.TimeUnit;
 
 /***
  * 静态文件配置和拦截配置
+ * @author zdtx
  */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
