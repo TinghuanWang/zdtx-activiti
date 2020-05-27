@@ -86,15 +86,20 @@ public class TaskController {
 
     /***
      * 启动流程（申请、下发、上报）
+     * --如果上报、下发到具体某个人，则需要传递toUser参数，并且流程图代理人处必须预留${toUser}参数
+     *
      * @param userId
      * @return
      */
-    @ApiOperation("启动流程（申请、下发、上报）")
+    @ApiOperation(value = "启动流程（申请、下发、上报）",
+            notes = "如果上报、下发到具体某个人，则需要传递toUser参数，并且流程图代理人处必须预留${toUser}参数")
     @GetMapping("submit")
-    public RestResponse submit(@ApiParam(value = "用户编号", name = "userId") @RequestParam(value = "userId") String userId,
+    public RestResponse submit(@ApiParam(value = "操作用户编号", name = "userId") @RequestParam(value = "userId") String userId,
                                @ApiParam(value = "流程KEY{act_re_procdef表中的KEY_}", name = "processDefinitionKey") @RequestParam(value = "processDefinitionKey") String processDefinitionKey,
-                               @ApiParam(value = "业务数据主键", name = "businessKey") @RequestParam(value = "businessKey") String businessKey) {
-        return activitiTaskService.submit(userId, processDefinitionKey, businessKey);
+                               @ApiParam(value = "业务数据主键", name = "businessKey") @RequestParam(value = "businessKey") String businessKey,
+                               @ApiParam(value = "目标用户ID", name = "toUser") @RequestParam(value = "toUser", required = false) String toUser,
+                               @ApiParam(value = "业务关键字", name = "keyword") @RequestParam(value = "keyword", required = false) String keyword) {
+        return activitiTaskService.submit(userId, processDefinitionKey, businessKey, toUser,keyword);
     }
 
     /***

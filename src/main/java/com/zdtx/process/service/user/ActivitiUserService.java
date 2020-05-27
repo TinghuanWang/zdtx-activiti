@@ -1,102 +1,101 @@
 package com.zdtx.process.service.user;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.zdtx.process.domain.system.ActivitiUser;
+import com.zdtx.process.domain.system.MembershipZdtx;
 import com.zdtx.process.domain.system.RoleZdtx;
 import com.zdtx.process.domain.system.UserZdtx;
-import com.zdtx.process.mapper.system.MembershipMapper;
-import com.zdtx.process.mapper.system.RoleMapper;
-import com.zdtx.process.mapper.system.UserMapper;
+import com.zdtx.process.mapper.system.ActivitiUserMapper;
+import com.zdtx.process.utils.RestResponse;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.identity.User;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
+/***
+ * Activiti用户、用户组扩展控制器
+ * @author zdtx
+ */
 @Service
 public class ActivitiUserService {
+
     /***
      * 注入身份管理服务
      */
     @Autowired
     IdentityService identityService;
 
+    @Autowired
+    UserDepService userDepService;
+
+    @Autowired
+    ActivitiUserMapper activitiUserMapper;
+
     /**
      * 创建Activiti用户
      */
-    public void addUser() {
-        //项目中每创建一个新用户，对应的要创建一个Activiti用户,两者的userId和userName一致
-        //添加用户
-        User user1 = identityService.newUser("user1");
-        user1.setFirstName("张三");
-        user1.setLastName("张");
-        user1.setPassword("123456");
-        user1.setEmail("zhangsan@qq.com");
-        identityService.saveUser(user1);
-
-        User user2 = identityService.newUser("user2");
-        user2.setFirstName("李四");
-        user2.setLastName("李");
-        user2.setPassword("123456");
-        user2.setEmail("lisi@qq.com");
-        identityService.saveUser(user2);
-
-        User user3 = identityService.newUser("user3");
-        user3.setFirstName("王五");
-        user3.setLastName("王");
-        user3.setPassword("123456");
-        user3.setEmail("wangwu@qq.com");
-        identityService.saveUser(user3);
-
-        User user4 = identityService.newUser("user4");
-        user4.setFirstName("吴六");
-        user4.setLastName("吴");
-        user4.setPassword("123456");
-        user4.setEmail("wuliu@qq.com");
-        identityService.saveUser(user4);
+    public RestResponse addUser(UserZdtx userZdtx) {
+        try {
+            List<User> userQueries = identityService.createUserQuery().userId(userZdtx.getId()).list();
+            if (userQueries.size() == 0) {
+                User user1 = identityService.newUser(userZdtx.getUsernumber());
+                user1.setFirstName(userZdtx.getUsername());
+                user1.setLastName(userZdtx.getUsername());
+                user1.setPassword(userZdtx.getUserpwd());
+                user1.setEmail(userZdtx.getEmail());
+                identityService.saveUser(user1);
+                //部门信息维护
+                if (StringUtils.isNotEmpty(userZdtx.getDep())) {
+                    userDepService.saveUserDep(userZdtx.getUsernumber(), userZdtx.getDep());
+                }
+            }
+            return RestResponse.succuess();
+        } catch (Exception ex) {
+            return RestResponse.fail(ex.getMessage());
+        }
     }
 
     /**
      * 添加Activiti用户组
      */
-    public void addGroup() {
+    public RestResponse addGroup(RoleZdtx roleZdtx) {
+        try {
+            List<Group> groupList = identityService.createGroupQuery().groupId(roleZdtx.getId()).list();
+            if (groupList.size() == 0) {
+                Group group = identityService.newGroup(roleZdtx.getId());
+                group.setName(roleZdtx.getName());
+                group.setType(roleZdtx.getRoletype());
+                identityService.saveGroup(group);
+            }
+            return RestResponse.succuess();
+        } catch (Exception ex) {
+            return RestResponse.fail(ex.getMessage());
+        }
 
-        Group group1 = identityService.newGroup("group1");
-        group1.setName("员工组");
-        group1.setType("员工组");
-        identityService.saveGroup(group1);
-
-        Group group2 = identityService.newGroup("group2");
-        group2.setName("总监组");
-        group2.setType("总监阻");
-        identityService.saveGroup(group2);
-
-        Group group3 = identityService.newGroup("group3");
-        group3.setName("经理组");
-        group3.setType("经理组");
-        identityService.saveGroup(group3);
-
-        Group group4 = identityService.newGroup("group4");
-        group4.setName("董事会组");
-        group4.setType("董事会组");
-        identityService.saveGroup(group4);
     }
 
     /**
      * 创建Activiti（用户-用户组）关系
      */
-    public void addMembership() {
-        identityService.createMembership("user1", "group1");
-        //普通员工
-        identityService.createMembership("user2", "group2");
-        //总监
-        identityService.createMembership("user3", "group3");
-        //经理
-        identityService.createMembership("user4", "group4");
-        //董事
+    public RestResponse addMembership(List<MembershipZdtx> membershipZdtxes) {
+        try {
+            if (membershipZdtxes.size() > 0) {
+                for (MembershipZdtx membershipZdtx : membershipZdtxes) {
+                    identityService.deleteMembership(membershipZdtx.getUserid(), membershipZdtx.getRoleid());
+                    identityService.createMembership(membershipZdtx.getUserid(), membershipZdtx.getRoleid());
+                }
+            }
+            return RestResponse.succuess();
+        } catch (Exception ex) {
+            return RestResponse.fail(ex.getMessage());
+        }
     }
-
 
     /***
      * 查询属于组（比如group）的用户
@@ -134,38 +133,26 @@ public class ActivitiUserService {
         return identityService.createGroupQuery().groupMember(userId).singleResult();
     }
 
-    @Autowired
-    UserMapper userMapper;
-
-    @Autowired
-    RoleMapper roleMapper;
-
-    @Autowired
-    MembershipMapper membershipMapper;
-
-    /**
-     * 查询（业务）用户
-     *
+    /***
+     * 根据部门查询所有的用户
+     * @param pageNum
+     * @param pageSize
+     * @param depNo
      * @return
      */
-    public List<UserZdtx> getUserList() {
-        return userMapper.selectList(null);
-    }
+    public List<ActivitiUser> getUserList(int pageNum, int pageSize, String depNo) {
 
-    public UserZdtx getUserById(String userId) {
-        return userMapper.selectById(userId);
-    }
+        //查出部门关联的用户编号集合
+        List<String> userIds = userDepService.getUsersByDep(depNo);
+        if (userIds.size() == 0) {
+            userIds.add("XXXXXXXXXXXXXXXX");
+        }
+        EntityWrapper entityWrapper = new EntityWrapper<ActivitiUser>();
+        entityWrapper.in("ID_", userIds);
 
-    public List<String> fingRoleCodeByUserId(String userId) {
-        return membershipMapper.fingRoleCodeByUserId(userId);
-    }
-
-    /**
-     * 查询（业务）用户组
-     *
-     * @return
-     */
-    public List<RoleZdtx> getGroupList() {
-        return roleMapper.selectList(null);
+        //分页展示数据
+        Page pageInfo = PageHelper.startPage(pageNum, pageSize);
+        // 使用PageHelper进行分页
+        return activitiUserMapper.selectList(entityWrapper);
     }
 }

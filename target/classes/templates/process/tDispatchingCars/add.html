@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('新增派车申请')" />
+	<th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-tDispatchingCars-add">
+			<!--<div class="form-group">
+				<label class="col-sm-3 control-label"><span style="color: red; ">*</span>申请部门：</label>
+				<div class="col-sm-8">
+					<input id="applicationDept" name="applicationDept" class="form-control" type="text" required>
+				</div>
+			</div>-->
+			<!--<div class="form-group">
+				<label class="col-sm-3 control-label"><span style="color: red; ">*</span>用车类型：</label>
+				<div class="col-sm-8">
+					<select name="carType" class="form-control m-b" th:with="type=${@dict.getType('car_type')}">
+						<option th:each="car : ${type}" th:text="${car.dictLabel}" th:value="${car.dictValue}"></option>
+					</select>
+				</div>
+			</div>-->
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color: red; ">*</span>乘车人数：</label>
+				<div class="col-sm-8">
+					<input id="number" name="number" class="form-control" type="text" required>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label"><span style="color: red; ">*</span>开始时间：</label>
+				<div class="col-sm-8">
+					<div class="input-group date">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input name="startTime" class="form-control calcTotalSecondInput" placeholder="yyyy-MM-dd HH:mm" type="text" required>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label"><span style="color: red; ">*</span>结束时间：</label>
+				<div class="col-sm-8">
+					<div class="input-group date">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input name="endTime" class="form-control calcTotalSecondInput" placeholder="yyyy-MM-dd HH:mm" type="text" required>
+					</div>
+				</div>
+			</div>
+
+			<!--
+			<div class="form-group">
+                <label class="col-sm-3 control-label">请假时长：</label>
+                <div class="col-sm-8">
+                    <input name="totalTime" class="form-control" type="text" style="display: none;">
+                    <input name="totalTimeText" class="form-control" type="text" readonly>
+                </div>
+            </div>-->
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">时长：</label>
+				<div class="col-sm-8">
+					<!--<input id="duration" name="duration" class="form-control" type="text">-->
+					<input name="duration" class="form-control" type="text" style="display: none;">
+					<input name="totalTimeText" class="form-control" type="text" readonly>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color: red; ">*</span>用车说明：</label>
+				<div class="col-sm-8">
+					<!--<input id="carExplain" name="carExplain" class="form-control" type="text" required>-->
+					<textarea id="carExplain" name="carExplain" class="form-control" required></textarea>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color: red; ">*</span>起止路线：</label>
+				<div class="col-sm-8">
+					<!--<input id="routes" name="routes" class="form-control" type="text" required>-->
+					<textarea id="routes" name="routes" class="form-control" required></textarea>
+				</div>
+			</div>
+
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+	<script th:src="@{/ajax/libs/My97DatePicker/4.8/WdatePicker.js}"></script>
+	<th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+		var prefix = ctx + "process/tDispatchingCars"
+		$("#form-tDispatchingCars-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form() && validateStartTimeAndEndTime() ) {
+	            $.operate.save(prefix + "/add", $('#form-tDispatchingCars-add').serialize());
+	        }
+	    }
+
+		$("input[name='startTime']").datetimepicker({
+			autoclose: true,
+			startDate: new Date()
+		});
+
+		$("input[name='endTime']").datetimepicker({
+			autoclose: true,
+			startDate: new Date()
+		});
+
+
+		// 监听开始和结束日期填写，动态生成请假时长
+		$('.calcTotalSecondInput').change(function () {
+			if (!$('input[name="startTime"]').val() || !$('input[name="endTime"]').val()) {
+				return;
+			}
+			if (validateStartTimeAndEndTime()) {
+				var startTime = $('input[name="startTime"]').val();
+				var endTime = $('input[name="endTime"]').val();
+				var date3 = new Date(endTime).getTime() - new Date(startTime).getTime();   //时间差的毫秒数
+				//计算出相差天数
+				var days=Math.floor(date3/(24*3600*1000));
+				//计算出小时数
+				var leave1=date3%(24*3600*1000);    //计算天数后剩余的毫秒数
+				var hours=Math.floor(leave1/(3600*1000));
+				//计算相差分钟数
+				var leave2=leave1%(3600*1000);        //计算小时数后剩余的毫秒数
+				var minutes=Math.floor(leave2/(60*1000));
+				//计算相差秒数
+				var leave3=leave2%(60*1000);      //计算分钟数后剩余的毫秒数
+				var seconds=Math.round(leave3/1000);
+				var totalSecond = days + "天 " + hours+"小时 " + minutes + " 分钟" + seconds+" 秒";
+
+				// var totalSecond = $.common.calcTotalSecond(startTime,endTime);
+				// var totalSecond = $.common.calcTotalSecond($('input[name="startTime"]').val(), $('input[name="endTime"]').val());
+				$('input[name="duration"]').val(date3);
+				// var dateSub = $.common.formatTotalDateSub(totalSecond);
+				$('input[name="totalTimeText"]').val(totalSecond);
+			}
+		});
+
+
+		function validateStartTimeAndEndTime() {
+			if ($('input[name="startTime"]').val() >= $('input[name="endTime"]').val()) {
+				$.modal.alertWarning("结束时间必须大于开始时间");
+				return false;
+			}
+			return true;
+		}
+
+	</script>
+</body>
+</html>

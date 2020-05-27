@@ -177,49 +177,56 @@ public class ActivitiTaskServiceImpl implements ActivitiTaskService {
 
     @Override
     public List<TaskV> getLeaveTaskList(String userId) {
-        //查出当前登录用户所在的用户组
-        List<Group> groups = identityService.createGroupQuery()
-                .groupMember(String.valueOf(userId)).list();
-        //添加zdtxId,与存储的用户组保持一致
-        List<String> groupIds = groups.stream()
-                .map(group -> ZDTXID + group.getId()).collect(Collectors.toList());
-        //1.（用户组任务）查询用户组的待审批任务列表
-        List<Task> tasksGroup = taskService.createTaskQuery()
-                .taskCandidateGroupIn(groupIds).desc().list();
-
-        //2.（个人任务）查询用户组的待审批任务列表
-        List<Task> tasksUser = taskService.createTaskQuery()
-                .taskAssignee(userId).desc().list();
-
-        tasksGroup.addAll(tasksUser);
         List<TaskV> taskVS = new ArrayList<TaskV>();
-        if (tasksGroup.size() > 0) {
-            for (Task task : tasksGroup) {
-                //获取流程实体对象
-                ProcessInstance processInstance = runtimeService
-                        .createProcessInstanceQuery()
-                        .processInstanceId(task.getProcessInstanceId())
-                        .singleResult();
+        try {
+            //查出当前登录用户所在的用户组
+            List<Group> groups = identityService.createGroupQuery()
+                    .groupMember(String.valueOf(userId)).list();
+            //添加zdtxId,与存储的用户组保持一致
+            List<String> groupIds = groups.stream()
+                    .map(group -> ZDTXID + group.getId()).collect(Collectors.toList());
+            //1.（用户组任务）查询用户组的待审批任务列表
+            List<Task> tasksGroup = taskService.createTaskQuery()
+                    .taskCandidateGroupIn(groupIds).list();
 
-                //获取Task的businessKey
-                String businessKey = processInstance.getBusinessKey();
-                if (StringUtils.isNotEmpty(businessKey) && businessKey.indexOf(".") > -1) {
-                    businessKey = businessKey.substring(businessKey.indexOf(".") + 1, businessKey.length());
+            //2.（个人任务）查询用户组的待审批任务列表
+            List<Task> tasksUser = taskService.createTaskQuery()
+                    .taskAssignee(userId).list();
+
+            tasksGroup.addAll(tasksUser);
+            if (tasksGroup.size() > 0) {
+                for (Task task : tasksGroup) {
+                    //获取流程实体对象
+                    ProcessInstance processInstance = runtimeService
+                            .createProcessInstanceQuery()
+                            .processInstanceId(task.getProcessInstanceId())
+                            .singleResult();
+
+                    //获取Task的businessKey
+                    String businessKey = processInstance.getBusinessKey();
+                    if (StringUtils.isNotEmpty(businessKey) && businessKey.indexOf(".") > -1) {
+                        businessKey = businessKey.substring(businessKey.indexOf(".") + 1, businessKey.length());
+                    }
+
+                    TaskV taskV = new TaskV();
+                    taskV.setTaskId(task.getId());
+                    //获取发起人
+                    Map<String, Object> variables = taskService.getVariables(task.getId());
+                    String applyUser = (String) (variables.get("applyUser") == null ? "" : variables.get("applyUser"));
+                    taskV.setOwner(applyUser);
+                    //获取业务描述信息
+                    String keyword = (String) (variables.get("keyword") == null ? "" : variables.get("keyword"));
+                    taskV.setKeyWord(keyword);
+                    taskV.setCreatetime(DateUtils.parseDate(task.getCreateTime(), DateUtils.DATE_TIME_WITHOUT_SECONDS));
+                    taskV.setProcessName(processInstance.getProcessDefinitionName());
+                    taskV.setBusinessKey(businessKey);
+                    taskV.setTaskName(task.getName());
+                    taskV.setProcessInstanceId(processInstance.getId());
+                    taskVS.add(taskV);
                 }
-
-                TaskV taskV = new TaskV();
-                taskV.setTaskId(task.getId());
-                //发起人
-                HistoricProcessInstance historicProcessInstance =
-                        historyService.createHistoricProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
-                taskV.setOwner(historicProcessInstance.getStartUserId());
-                taskV.setCreatetime(DateUtils.parseDate(task.getCreateTime(), DateUtils.DATE_TIME_WITHOUT_SECONDS));
-                taskV.setProcessName(processInstance.getProcessDefinitionName());
-                taskV.setBusinessKey(businessKey);
-                taskV.setTaskName(task.getName());
-                taskV.setProcessInstanceId(processInstance.getId());
-                taskVS.add(taskV);
             }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         return taskVS;
     }
@@ -263,10 +270,13 @@ public class ActivitiTaskServiceImpl implements ActivitiTaskService {
 
                     TaskV taskV = new TaskV();
                     taskV.setTaskId(hti.getId());
-                    //发起人
-                    HistoricProcessInstance historicProcessInstance =
-                            historyService.createHistoricProcessInstanceQuery().processInstanceId(hti.getProcessInstanceId()).singleResult();
-                    taskV.setOwner(historicProcessInstance.getStartUserId());
+                    //获取发起人
+                    Map<String, Object> variables = taskService.getVariables(hti.getId());
+                    String applyUser = (String) (variables.get("applyUser") == null ? "" : variables.get("applyUser"));
+                    taskV.setOwner(applyUser);
+                    //获取业务描述信息
+                    String keyword = (String) (variables.get("keyword") == null ? "" : variables.get("keyword"));
+                    taskV.setKeyWord(keyword);
                     taskV.setCreatetime(DateUtils.parseDate(hti.getCreateTime(), DateUtils.DATE_TIME_WITHOUT_SECONDS));
                     taskV.setProcessName(processInstance.getProcessDefinitionName());
                     taskV.setBusinessKey(businessKey);
@@ -317,10 +327,13 @@ public class ActivitiTaskServiceImpl implements ActivitiTaskService {
 
                     TaskV taskV = new TaskV();
                     taskV.setTaskId(hti.getId());
-                    //发起人
-                    HistoricProcessInstance historicProcessInstance =
-                            historyService.createHistoricProcessInstanceQuery().processInstanceId(hti.getProcessInstanceId()).singleResult();
-                    taskV.setOwner(historicProcessInstance.getStartUserId());
+                    //获取发起人
+                    Map<String, Object> variables = taskService.getVariables(hti.getId());
+                    String applyUser = (String) (variables.get("applyUser") == null ? "" : variables.get("applyUser"));
+                    taskV.setOwner(applyUser);
+                    //获取业务描述信息
+                    String keyword = (String) (variables.get("keyword") == null ? "" : variables.get("keyword"));
+                    taskV.setKeyWord(keyword);
                     taskV.setCreatetime(DateUtils.parseDate(hti.getCreateTime(), DateUtils.DATE_TIME_WITHOUT_SECONDS));
                     taskV.setProcessName(processInstance.getProcessDefinitionName());
                     taskV.setBusinessKey(businessKey);
@@ -335,7 +348,7 @@ public class ActivitiTaskServiceImpl implements ActivitiTaskService {
 
 
     @Override
-    public RestResponse submit(String userId, String processDefinitionKey, String businessKey) {
+    public RestResponse submit(String userId, String processDefinitionKey, String businessKey, String toUser, String keyword) {
         try {
             /***
              *申明变量参数
@@ -343,8 +356,15 @@ public class ActivitiTaskServiceImpl implements ActivitiTaskService {
             Map<String, Object> variables = new HashMap<>(1);
             User user = identityService.createUserQuery().userId(userId).singleResult();
             variables.put("owner", user.getFirstName() + " " + user.getLastName());
-            variables.put("Owner", user.getFirstName() + " " + user.getLastName());
+            variables.put("applyUser", userId);
+            if (StringUtils.isNotEmpty(keyword)) {
 
+                variables.put("keyword", keyword);
+            }
+            if (StringUtils.isNotEmpty(toUser)) {
+
+                variables.put("toUser", toUser);
+            }
             /***
              * 启动流程
              *
@@ -366,8 +386,7 @@ public class ActivitiTaskServiceImpl implements ActivitiTaskService {
              */
             runtimeService.updateBusinessKey(processInstance.getId(), businessKey);
             Task vacationApply = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
-            taskService.setAssignee(vacationApply.getId(), userId);
-            taskService.setOwner(vacationApply.getId(), userId);
+            identityService.setAuthenticatedUserId(userId);
             taskService.complete(vacationApply.getId(), variables);
             return RestResponse.succuess();
         } catch (Exception ex) {

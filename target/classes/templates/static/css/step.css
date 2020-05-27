@@ -1,0 +1,90 @@
+
+.progressbar {
+    font-family: montserrat, arial, verdana;
+    margin: 30px 15px;
+    padding: 0;
+    text-align: center;
+    overflow: hidden;
+    counter-reset: step;
+    z-index: 99;
+}
+
+.progressbar li {
+    list-style-type: none;
+    font-size: 18px;
+    float: left;
+    position: relative;
+}
+
+.progressbar li:before {
+    content: counter(step);
+    counter-increment: step;
+    width: 50px;
+    line-height: 50px;
+    display: block;
+    font-size: 30px;
+    color: #333;
+    background: #efeff0;
+    border-radius: 50%;
+    margin: 0 auto 10px auto;
+}
+
+.progressbar li:after {
+    content: '';
+    width: calc(100% - 20px);
+    height: 2px;
+    background: #efeff0;
+    position: absolute;
+    left: calc((-100% + 20px) / 2);
+    top: 25px;
+}
+
+.progressbar li:first-child:after {
+    content: none;
+}
+
+.progressbar li.active:before, .progressbar li.active:after {
+    background: #27AE60;
+    color: white;
+}
+
+#listBox {
+    padding: 30px 50px 60px;
+}
+
+.mycontainer {
+    display: none;
+}
+
+.myactive {
+    display: block;
+}
+
+.mycenter-block {
+    text-align: center;
+    margin-bottom: 40px;
+}
+.mycenter-block> button {
+    margin-left: 20px;
+}
+.active {
+    z-index: 1;
+}
+
+.control-label {
+    text-align: right;
+    line-height: 34px;
+}
+.nav-tabs>li>a {
+    background-color: #dddddd;
+    color: #000;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#1182fa), to(#0b4bd3));
+    background-image: -webkit-linear-gradient(top, #1182fa, #0b4bd3);
+    background-image: -moz-linear-gradient(top, #1182fa, #0b4bd3);
+    background-image: -ms-linear-gradient(top, #1182fa, #0b4bd3);
+    background-image: -o-linear-gradient(top, #1182fa, #0b4bd3);
+    background-image: linear-gradient(to bottom, #1182fa, #0b4bd3);
+    color: #fff;
+}

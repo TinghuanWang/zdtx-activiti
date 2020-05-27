@@ -73,7 +73,6 @@ public class ModelerController {
      */
     @ApiOperation(value = "跳转到流程展示界面（内部测试用）")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-
     public ModelAndView index(ModelAndView modelAndView) {
         modelAndView.setViewName("index");
         modelAndView.addObject("modelList", repositoryService.createModelQuery().list());
@@ -86,6 +85,7 @@ public class ModelerController {
      */
     @ApiOperation(value = "获取所有的流程模型数据")
     @RequestMapping(value = "/modelList", method = RequestMethod.GET)
+    @ResponseBody
     public RestResponse<List<Modeler>> modelList() {
         try {
             List<Modeler> modelers = new ArrayList<Modeler>();
@@ -128,6 +128,7 @@ public class ModelerController {
      */
     @ApiOperation(value = "创建流程模型")
     @RequestMapping(value = "/modeler/create", method = RequestMethod.POST)
+    @ResponseBody
     public RestResponse create(HttpServletResponse response,
                                @ApiParam(value = "模型名称", name = "name") String name,
                                @ApiParam(value = "模型KEY", name = "key") String key,
@@ -338,6 +339,7 @@ public class ModelerController {
      */
     @ApiOperation(value = "以图片形式打开流程图，并且高亮指定的节点")
     @RequestMapping(value = "/modeler/openProcess", method = RequestMethod.GET)
+    @ResponseBody
     public RestResponse openmodeler(@ApiParam(value = "流程实例ID", name = "processInstanceId", required = true) String processInstanceId,
                                     @ApiParam(value = "节点名称", name = "nodeName", required = false) String nodeName,
                                     HttpServletResponse response) {

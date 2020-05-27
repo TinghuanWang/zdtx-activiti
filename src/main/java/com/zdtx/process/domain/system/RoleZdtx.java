@@ -1,28 +1,27 @@
 package com.zdtx.process.domain.system;
 
-import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @Data
-@TableName("role_zdtx")
-public class RoleZdtx implements Serializable {
+@ApiModel(value = "自定义角色对象")
+public class RoleZdtx{
 
-    private static final long serialVersionUID = 2248469053125414262L;
-
+    @ApiModelProperty(value = "主键")
     @TableId
-    private String pkid;
+    private String id;
 
+    @ApiModelProperty(value = "角色代码")
     private String rolecode;
 
+    @ApiModelProperty(value = "角色名称")
     private String name;
 
+    @ApiModelProperty(value = "角色类型")
     private String roletype;
-
-    private String enterpriseType;
 }

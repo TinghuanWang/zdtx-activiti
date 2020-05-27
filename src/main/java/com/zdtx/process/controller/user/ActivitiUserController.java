@@ -1,26 +1,32 @@
 package com.zdtx.process.controller.user;
 
+import com.zdtx.process.domain.system.ActivitiUser;
+import com.zdtx.process.domain.system.MembershipZdtx;
 import com.zdtx.process.domain.system.RoleZdtx;
 import com.zdtx.process.domain.system.UserZdtx;
 import com.zdtx.process.service.user.ActivitiUserService;
+import com.zdtx.process.service.user.DepService;
+import com.zdtx.process.utils.RestResponse;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.identity.User;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /***
  * Activiti 引擎用户及用户组控制器
  * 目前Activiti的用户及用户组信息维护是通过自定义方式实现；后续集成业务系统再做接口与业务基础数据做交互达到数据一致性。
- * @author wth
+ * @author ZDTX
  */
 @RestController
 @RequestMapping(value = "user")
+@Api(value = "user", description = "用户及用户组控制器")
 public class ActivitiUserController {
 
     /***
@@ -32,28 +38,34 @@ public class ActivitiUserController {
     @Autowired
     ActivitiUserService activitiUserService;
 
+    @Autowired
+    DepService depService;
+
     /**
      * 创建Activiti用户
      */
+    @ApiOperation(value = "创建Activiti用户")
     @PostMapping("/addUser")
-    public void addUser() {
-        activitiUserService.addUser();
+    public RestResponse addUser(UserZdtx userZdtx) {
+        return activitiUserService.addUser(userZdtx);
     }
 
     /**
      * 添加Activiti用户组
      */
+    @ApiOperation(value = "添加Activiti用户组")
     @PostMapping("/addGroup")
-    public void addGroup() {
-        activitiUserService.addGroup();
+    public RestResponse addGroup(RoleZdtx roleZdtx) {
+        return activitiUserService.addGroup(roleZdtx);
     }
 
     /**
      * 创建Activiti（用户-用户组）关系
      */
+    @ApiOperation(value = "创建Activiti（用户-用户组）关系")
     @PostMapping("/addMembership")
-    public void addMembership() {
-        activitiUserService.addMembership();
+    public RestResponse addMembership(List<MembershipZdtx> membershipZdtxes) {
+        return activitiUserService.addMembership(membershipZdtxes);
     }
 
 
@@ -96,37 +108,22 @@ public class ActivitiUserController {
         return activitiUserService.queryGroupByUserId(userId);
     }
 
-//    /**
-//     * 查询（业务）用户
-//     *
-//     * @return
-//     */
-//    @PostMapping("/getUserList")
-//    public List<UserZdtx> getUserList(String pageNum, String pageSize) {
-//        List<UserZdtx> list = activitiUserService.getUserList();
-//        return list;
-//    }
-//
-//    /**
-//     * 查询（业务）用户组
-//     *
-//     * @return
-//     */
-//    @PostMapping("/getGroupList")
-//    public List<RoleZdtx> getGroupList(String pageNum, String pageSize) {
-//        return activitiUserService.getGroupList();
-//    }
-
-    //用户及用户组先使用Activiti自带的用户及用户
-
-    /**
+    /***
      * 查询所有activiti用户
-     *
+     * @param pageNum
+     * @param pageSize
+     * @param depNo 部门编号
      * @return
      */
+    @ApiOperation(value = "查询所有activiti用户")
     @PostMapping("/getUserList")
-    public List<User> getUserList(String pageNum, String pageSize) {
-        return identityService.createUserQuery().list();
+    public List<ActivitiUser> getUserList(@ApiParam(value = "页码", name = "pageNum") int pageNum,
+                                          @ApiParam(value = "一页展示数量", name = "pageSize") int pageSize,
+                                          @ApiParam(value = "部门编号", name = "depNo") String depNo) {
+        if (StringUtils.isEmpty(depNo)) {
+            return null;
+        }
+        return activitiUserService.getUserList(pageNum,pageSize,depNo);
     }
 
     /**
@@ -134,26 +131,20 @@ public class ActivitiUserController {
      *
      * @return
      */
+    @ApiOperation(value = "查询所有activiti用户组")
     @PostMapping("/getGroupList")
-    public List<Group> getGroupList(String pageNum, String pageSize) {
-        return identityService.createGroupQuery().list();
+    public List<Group> getGroupList(@ApiParam(value = "页码", name = "pageNum") int pageNum,
+                                    @ApiParam(value = "一页展示数量", name = "pageSize") int pageSize) {
+        return identityService.createGroupQuery().listPage(pageNum, pageSize);
     }
 
     /***
-     * 仅仅是测试使用
+     * 获取所有部门
      * @return
      */
-    @PostMapping("/getProjectList")
-    public Object getProjectList() {
-        List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-        Map<String, String> map = new HashMap<String, String>(1);
-        map.put("pkid", "0001");
-        map.put("projectName", "0001-name");
-        list.add(map);
-        Map<String, String> map2 = new HashMap<String, String>(1);
-        map2.put("pkid", "0002");
-        map2.put("projectName", "0001-name2");
-        list.add(map2);
-        return list;
+    @ApiOperation(value = "获取所有业务部门")
+    @PostMapping("/getDepList")
+    public RestResponse getProjectList() {
+        return depService.selectList();
     }
 }

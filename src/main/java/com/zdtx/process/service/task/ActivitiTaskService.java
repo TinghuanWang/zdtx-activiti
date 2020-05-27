@@ -53,7 +53,7 @@ public interface ActivitiTaskService {
      * @param processDefinitionKey 这里的processDefinitionKey先指定数据库的值，后期可以做个维护关联关系，写死也没关系。
      * @return
      */
-    public RestResponse submit(String userId, String processDefinitionKey, String businessKey);
+    public RestResponse submit(String userId, String processDefinitionKey, String businessKey,String toUser,String keyword);
 
 
     /***

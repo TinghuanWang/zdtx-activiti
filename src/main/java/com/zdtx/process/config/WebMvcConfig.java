@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
  * @author zdtx
  */
 @Configuration
+@EnableWebMvc
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override

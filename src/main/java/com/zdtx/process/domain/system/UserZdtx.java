@@ -1,28 +1,33 @@
 package com.zdtx.process.domain.system;
 
-import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @Data
-@TableName("user_zdtx")
-public class UserZdtx implements Serializable {
+@ApiModel(value = "自定义用户对象")
+public class UserZdtx {
 
-    private static final long serialVersionUID = 2248469053125414262L;
-
+    @ApiModelProperty(value = "主键")
     @TableId
-    private String pkid;
+    private String id;
 
+    @ApiModelProperty(value = "用户名称")
     private String username;
 
+    @ApiModelProperty(value = "用户编号")
     private String usernumber;
 
+    @ApiModelProperty(value = "邮箱")
     private String email;
 
+    @ApiModelProperty(value = "密码")
     private String userpwd;
+
+    @ApiModelProperty(value = "部门编号")
+    private String dep;
 }
