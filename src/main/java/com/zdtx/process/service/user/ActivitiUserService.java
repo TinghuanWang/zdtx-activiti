@@ -141,15 +141,8 @@ public class ActivitiUserService {
      * @return
      */
     public List<ActivitiUser> getUserList(int pageNum, int pageSize, String depNo) {
-
-        //查出部门关联的用户编号集合
-        List<String> userIds = userDepService.getUsersByDep(depNo);
-        if (userIds.size() == 0) {
-            userIds.add("XXXXXXXXXXXXXXXX");
-        }
         EntityWrapper entityWrapper = new EntityWrapper<ActivitiUser>();
-        entityWrapper.in("ID_", userIds);
-
+        entityWrapper.in("DEPID", depNo);
         //分页展示数据
         Page pageInfo = PageHelper.startPage(pageNum, pageSize);
         // 使用PageHelper进行分页

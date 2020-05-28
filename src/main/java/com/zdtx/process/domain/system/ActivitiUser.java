@@ -43,4 +43,8 @@ public class ActivitiUser implements Serializable {
     @ApiModelProperty(value = "图片关联ID")
     @TableField(value = "PICTURE_ID_")
     private String pictureId;
+
+    @ApiModelProperty(value = "部门编号")
+    @TableField(value = "DEPID")
+    private String depId;
 }

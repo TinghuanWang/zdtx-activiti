@@ -1,5 +1,7 @@
 package com.zdtx.process.controller.user;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.zdtx.process.domain.system.ActivitiUser;
 import com.zdtx.process.domain.system.MembershipZdtx;
 import com.zdtx.process.domain.system.RoleZdtx;
@@ -123,7 +125,7 @@ public class ActivitiUserController {
         if (StringUtils.isEmpty(depNo)) {
             return null;
         }
-        return activitiUserService.getUserList(pageNum,pageSize,depNo);
+        return activitiUserService.getUserList(pageNum, pageSize, depNo);
     }
 
     /**
@@ -135,7 +137,9 @@ public class ActivitiUserController {
     @PostMapping("/getGroupList")
     public List<Group> getGroupList(@ApiParam(value = "页码", name = "pageNum") int pageNum,
                                     @ApiParam(value = "一页展示数量", name = "pageSize") int pageSize) {
-        return identityService.createGroupQuery().listPage(pageNum, pageSize);
+        //分页展示数据
+        Page pageInfo = PageHelper.startPage(pageNum, pageSize);
+        return identityService.createGroupQuery().list();
     }
 
     /***

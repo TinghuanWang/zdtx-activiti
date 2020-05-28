@@ -20,8 +20,6 @@ public class DepService {
     @Autowired
     DepMapper depMapper;
 
-//################################################################基于child方式组装数据
-
     /***
      * 获取所有业务部门数据
      * @param userId
@@ -65,20 +63,4 @@ public class DepService {
         }
         return childList;
     }
-
-//###############################################基于AngularJS select########
-
-//    /***
-//     * 获取所有业务部门数据
-//     * @param userId
-//     * @param depId
-//     */
-//    public RestResponse selectList() {
-//        try {
-//            List<DepZdtx> depZdtxes = depMapper.selectGroupAnguluJS();
-//            return new RestResponse().succuess(depZdtxes);
-//        } catch (Exception ex) {
-//            return RestResponse.fail(ex.getMessage());
-//        }
-//    }
 }
